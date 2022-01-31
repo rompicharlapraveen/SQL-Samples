@@ -72,3 +72,52 @@ select * from Employee1 union select * from Department
 select * from Employee1 union all select * from Department
 select * from Employee1 intersect select * from Department
 select * from Employee1 except select * from Department
+
+
+--Joins
+
+--Join
+select * from person1, Praveen where person1.Age = Praveen.Age
+
+--Inner Join
+select person1.Id, person1.Firstname, Praveen.Name from person1 inner join Praveen on person1.Age = Praveen.Age
+
+--Self Join
+select person1.Lastname, Praveen.Name, Praveen.Age from person1, Praveen where person1.Id <> Praveen.Id and person1.Age = Praveen.Age order by Praveen.Age 
+
+--Cross Join
+select person1.Id, person1.Firstname, Praveen.Name from person1 cross join Praveen where person1.Age = Praveen.Age
+
+--Left Outer Join
+select person1.Id, person1.Firstname, Praveen.Name from person1 left outer join Praveen on person1.Firstname = Praveen.Name 
+
+--Right Outer Join
+select person1.Id, person1.Firstname, Praveen.Name from person1 right outer join Praveen on person1.Firstname = Praveen.Name group by Firstname
+
+--Full Outer Join
+select person1.Id, person1.Firstname, Praveen.Name from person1 full outer join Praveen on person1.Firstname = Praveen.Name
+
+--Cross Apply
+select person1.Id, person1.Firstname, Praveen.Name from person1 cross apply Praveen where  person1.Age = Praveen.Age 
+
+--Outer Apply
+select person1.Id, person1.Firstname, Praveen.Name from person1 outer apply Praveen where  person1.Age = Praveen.Age
+
+
+--Ranking Functions()
+
+select * from Emp14
+select Name, Age, City, rank() over(partition by City order by Name) as RankNo from Emp14 
+select Name, Age, City, rank() over(order by City) as RankNo from Emp14 
+
+select Name, Age, City, row_number() over(partition by City order by Name) as RankNo from Emp14
+select Name, Age, City, row_number() over(order by City) as RankNo from Emp14
+
+select Name, Age, City, dense_rank() over(partition by City order by Name) as RankNo from Emp14 
+select Name, Age, City, dense_rank() over(order by City) as RankNo from Emp14 
+
+select Name, Age, City, ntile(5) over(partition by Name order by City) as RankNo from Emp14 
+select Name, Age, City, ntile(5) over(order by City) as RankNo from Emp14 
+
+--Group By
+select count(Id) as "Person Id", Address from person1 group by Address order by Address
