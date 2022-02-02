@@ -250,3 +250,35 @@ select person1.Id, person1.Firstname, Praveen.Name from person1 outer apply Prav
 --Group By
 select count(Id) as "Person Id", Address from person1 group by Address order by Address
 
+--Assignment2
+create table Assignment4(Id int primary key, Name varchar(max), Age int, Dob date)
+insert into Assignment4 values(1,'Praveen123',23,'06/09/1998'),(2,'121Sai',22,'10/03/1997'),(3,'Sa11i',21,'02/21/2000'),(4,'Ma1d1hu',23,'08/29/1996')
+select * from Assignment4
+
+--1. Write a script to extracts all the numerics from Alphanumeric String
+
+select Name from Assignment4 where Name like '%[^a-zA-Z]%' 
+SELECT Name FROM Assignment4 WHERE patindex ('%[A-Z]%', Name) > 0 AND PATINDEX('%[0-9]%', Name) > 0
+
+select substring(Name, PatIndex('%[0-9]%', Name, len(Name))) as number from Assignment4 
+SELECT Name FROM Assignment4 where ISNUMERIC(Name) = 1
+SELECT * FROM Assignment4 WHERE Name NOT LIKE '%[^0-9]%'
+
+
+SELECT LEFT(subsrt, PATINDEX('%[^0-9]%', subsrt + 't') - 1) 
+FROM (
+    SELECT subsrt = SUBSTRING(Name, pos, LEN(Name))
+    FROM (
+        SELECT Name, pos = PATINDEX('%[0-9]%', Name)
+        FROM Assignment4
+    ) d
+) t
+select * from Assignment4
+select  substring(Name,patindex('%[0-9]%', Name),len(Name)) from Assignment4
+
+
+--2. Write a script to calculate age based on the Input DOB
+
+select Dob, datediff(year,Dob,getdate()) as Age from Assignment4
+SELECT Dob, datediff(yy,convert(datetime, Dob),getdate()) AS Age from Assignment4
+select Dob, datediff(month,Dob,getdate())/12 as Age from Assignment4
