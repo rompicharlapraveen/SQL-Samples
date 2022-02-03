@@ -353,3 +353,15 @@ select  substring(Name,patindex('%[0-9]%', Name),len(Name)) from Assignment4
 select Dob, datediff(year,Dob,getdate()) as Age from Assignment4
 SELECT Dob, datediff(yy,convert(datetime, Dob),getdate()) AS Age from Assignment4
 select Dob, datediff(month,Dob,getdate())/12 as Age from Assignment4
+
+
+
+create table Employee4(Empid int, Empname varchar(30), Managerid int, ManagerName varchar(30), SeniorManagerName int)
+insert into Employee4 values(1,'Praveen',1,'Sumith',0),(2,'Sasi',2,'Raju',1),(3,'Sai',3,'Sam',1),(4,'Madhu',4,'Ravi',2)
+select * from Employee4
+
+update Employee4 set SeniorManagerName=2 where Empid=4
+
+select *from Employee4 where Empid=(select Empid from Employee4 where Empid=3)
+
+select *from Employee4 where Empid=(select SeniorManagerName from Employee4 where Empid=3)
