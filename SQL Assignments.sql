@@ -63,6 +63,77 @@ select LastName from Assignment3 where LastName = 'Ram'
 --Max(Salary)
 select top 1 Name from Assignment3 order by Salary desc
 
+
+
+--Assignment2
+create table Assignment4(Id int primary key, Name varchar(max), Age int, Dob date)
+insert into Assignment4 values(1,'Praveen123',23,'06/09/1998'),(2,'121Sai',22,'10/03/1997'),(3,'Sa11i',21,'02/21/2000'),(4,'Ma1d1hu',23,'08/29/1996')
+insert into Assignment4 values(5,'Srinu',25,'01/01/2017'),(6,'Vasu',28,'12/31/2017'),(7,'Ram',27,'12/31/2000')
+select * from Assignment4
+
+
+--1. Write a script to extracts all the numerics from Alphanumeric String
+
+create function AlPhanumericName(@input varchar(30))  
+Returns varchar(30)  
+As  
+Begin  
+  Declare @Index int = Patindex('%[^0-9]%', @input)  
+  Begin  
+    While @Index > 0  
+    Begin  
+	  set @input = Stuff(@input, @Index, 1, '' )
+      set @Index = Patindex('%[^0-9]%', @input )  
+    End  
+  End  
+  Return @input
+End
+select dbo.AlPhanumericName(Name) as Number from Assignment4
+
+
+--2. Write a script to calculate age based on the Input DOB
+
+select Dob, datediff(year,Dob,getdate()) as Age from Assignment4
+SELECT Dob, datediff(yy,convert(datetime, Dob),getdate()) AS Age from Assignment4
+select Dob, datediff(month,Dob,getdate())/12 as Age from Assignment4
+
+--3. Create a column in a table and that should throw an error when we do SELECT * or SELECT of that column. 
+--If we select other columns then we should see results
+
+
+
+
+--4. Display Calendar Table based on the input year. If I give the year 2017 then populate data for 2017 only
+--Date e.g.  1/1/2017 
+
+--DayofYear 1 – 365/366 (Note 1)
+
+--Week 1-52/53
+
+--DayofWeek 1-7
+
+--Month 1-12
+
+--DayofMonth 1-30/31 (Note 2)
+
+--Note 1: DayofYear varies depending on the number of days in the given year.
+
+--Note 2: DayofMonth varies depending on number of days in the given month
+
+--Weekly calculations are always for a 7 day period Sunday to Saturday.
+
+
+--DECLARE @d date = '1/1/2017'
+Declare @d date = '12/31/2020'
+select datepart (dy , @d)as 'Day Of year' , datename(ww,@d) as 'Week' , datepart(dw,@d) as 'Day of Week' ,month(@d) as 'Month', day(@d) as 'Day of Month'
+
+--5.Display Emp and Manager Hierarchies based on the input till the topmost hierarchy. (Input would be empid)
+
+create table Employee2(Empid int primary key, Empname varchar(30), Managerid int, ManagerName varchar(30), SeniorManagerName varchar(30))
+insert into Employee2 values(1,'Praveen',1,'Sumith','Pradeep'),(2,'Sasi',2,'Raju','Pranav'),(3,'Sai',3,'Sam','Raju'),(4,'Madhu',4,'Ravi','Babu')
+select * from Employee2
+select Empid,Empname,ManagerName,SeniorManagerName from Employee2 where Empid=Managerid 
+
 --Top N
 select Top 5 FirstName,MiddleName ,LastName, DeptName from Assignment3 where DeptName = 'Dev' order by Id
 
