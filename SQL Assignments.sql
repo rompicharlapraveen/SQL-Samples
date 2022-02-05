@@ -208,7 +208,23 @@ select FirstName, min(Salary) as 'Salary' from Assignment3 group by FirstName ha
 select FirstName, min(Salary) as 'Salary' from Assignment3 group by FirstName having min(Salary) >all (select avg(Salary) from Assignment3)
 select FirstName, min(Salary) as 'Salary' from Assignment3 group by FirstName having min(Salary) >any (select avg(Salary) from Assignment3)
 
+--Nested Subquery
 
+select * from person1
+select * from Praveen
+SELECT * FROM Praveen WHERE Id = ( SELECT id FROM person1 WHERE FirstName = ( SELECT MAX(FirstName) FROM person1))
+
+--Corelated Subquery
+
+SELECT Id,name, (SELECT AVG(salary)  FROM employee1 WHERE Department = emp.Department) AS department_average FROM employee1 emp
+
+--Exists and Not Exists
+select * from Employee1 where exists (select Id from Employee1 where Age = 23)
+select * from Employee1 where not exists (select Id from Employee1 where Age = 23)
+select * from Employee1
+
+--Derived Tables
+select * from (select [Id], [Name], [Age],[Salary],[Address],[Email] from Employee1) as [Derived Employee1 Details] where [Salary]>8000 
 
 
 create table Person2(Id int, Name varchar(20), FatherName varchar(20))
