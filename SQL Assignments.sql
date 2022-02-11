@@ -150,6 +150,7 @@ Begin
   Return @input
 End
 select dbo.AlPhanumericName(Name) as Number from Assignment4
+select substring(Name, patindex('%[0-9]%', Name), patindex('%[0-9][^0-9]%', Name + 't') - patindex('%[0-9]%', Name) + 1) AS Number from Assignment4
 
 
 --2. Write a script to calculate age based on the Input DOB
